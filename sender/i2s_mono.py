@@ -181,8 +181,10 @@ def audio_rec():
     noise_chunks,_,_ = data_grabber(CHUNK/samp_rate) # grab the data
     #input('Press Enter to Record Data (Turn Freq. Generator On)')
     data_chunks,data_frames,t_0 = data_grabber(record_length) # grab the data
-    data_saver(t_0) # save the data as a .wav file
+    file_name = data_saver(t_0) # save the data as a .wav file
     pyserial_end() # close the stream/pyaudio connection 
+
+    return file_name
 
 #
 ##############################################
@@ -229,3 +231,4 @@ if __name__=="__main__":
     # fft_data = fft_data+np.abs(np.min(fft_data))+1.0
     # plotter(plt_1=1,plt_2=0) # select which data to plot
     # #  ^(plt_1 is time/freq), ^(plt_2 is spectrogram) 
+    ...
