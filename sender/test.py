@@ -1,9 +1,14 @@
 
 import time
-import RPi.GPIO as GPIO
-from i2s_mono import *
 from azure.iot.device import IoTHubDeviceClient, Message
 import json
+import asyncio
+import uuid
+from azure.iot.device.aio import IoTHubModuleClient
+from azure.iot.device import Message
+import os
+import asyncio
+from azure.iot.device.aio import IoTHubDeviceClient
 
 # from https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/
 # https://github.com/makerportal/rpi_i2s
@@ -11,16 +16,26 @@ import json
 
 CONNECTION_STRING = "HostName=milan-iothub.azure-devices.net;DeviceId=sender-heartnotes;SharedAccessKey=/Nxx9g90sMp9ZHQrI4tRu2L9aW43T/oH/PILnQ56FPI="
 
-def send_data_to_azure(data):
-    client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)
-    message = Message(json.dumps(data))
-    client.send_message(message)
-    print("Message successfully sent")
+async def main():
+    # Fetch the connection string from an environment variable
+    conn_str = os.getenv(CONNECTION_STRING)
 
-def test_cb():
-    send_data_to_azure("heyhey")
+    # Create instance of the device client using the connection string
+    device_client = IoTHubDeviceClient.create_from_connection_string(conn_str)
 
-if __name__ == '__main__':
-    while True:
-        test_cb()
-        time.sleep(1000)
+    # Connect the device client.
+    await device_client.connect()
+
+    # Send a single message
+    print("Sending message...")
+    await device_client.send_message("0.5")
+    print("Message successfully sent!")
+
+    # Finally, shut down the client
+    await device_client.shutdown()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+    asyncio.run(main())
+    asyncio.run(main())
