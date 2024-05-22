@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>heartnotes - home</title>
+    <title>heartnotes - audio</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,31 +27,19 @@
         p {
             color: #555;
         }
-        button {
+        audio {
             margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: white;
-            background-color: #ff6f61;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #ff4f41;
         }
     </style>
-    <script>
-        function navigateToAudio() {
-            window.location.href = "audio.html";
-        }
-    </script>
 </head>
 <body>
     <div class="container">
-        <h1>heartnotes</h1>
-        <p>Let them know you're thinking of them</p>
-        <button onclick="navigateToAudio()">Check for messages</button>
+        <h1>audio messages</h1>
+        <p>Listen to your messages below</p>
+        <audio controls>
+            <source src="your-audio-file.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
     </div>
 </body>
 </html>
