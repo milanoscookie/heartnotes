@@ -9,7 +9,6 @@ import json
 # https://github.com/makerportal/rpi_i2s
 # https://makersportal.com/blog/recording-stereo-audio-on-a-raspberry-pi
 
-RES_TOUCH_GPIO = 17
 CONNECTION_STRING = "HostName=milan-iothub.azure-devices.net;DeviceId=sender-heartnotes;SharedAccessKey=/Nxx9g90sMp9ZHQrI4tRu2L9aW43T/oH/PILnQ56FPI="
 
 def send_data_to_azure(data):
@@ -18,11 +17,10 @@ def send_data_to_azure(data):
     client.send_message(message)
     print("Message successfully sent")
 
-def record_audio_cb():
-    file_name = audio_rec()
+def test_cb():
     send_data_to_azure("heyhey")
 
 if __name__ == '__main__':
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(RES_TOUCH_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.add_event_detect(RES_TOUCH_GPIO, GPIO.RISING, callback=record_audio_cb, bouncetime=50)
+    while True:
+        test_cb()
+        time.sleep(1000)

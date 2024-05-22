@@ -8,7 +8,7 @@ from azure.iot.device import IoTHubDeviceClient, Message
 # https://makersportal.com/blog/recording-stereo-audio-on-a-raspberry-pi
 
 MOTOR_GPIO = 99 # TODO CHANGE
-CONNECTION_STRING = "YourIoTHubDeviceConnectionString"
+CONNECTION_STRING = "TODO :("
 
 def message_handler(message):
     # print data from both system and application (custom) properties
