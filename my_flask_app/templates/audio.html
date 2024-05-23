@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>heartnotes - audio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+            margin: 0;
+            flex-direction: column;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #ff6f61;
+        }
+        .message {
+            margin-bottom: 20px;
+        }
+        .message header {
+            font-weight: bold;
+            color: #333;
+        }
+        .message audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>audio messages 💌</h1>
+        <p>Listen to your messages below</p>
+    </div>
+
+    <!-- Example message -->
+    {% for audio in audio_files %}
+    <div class="container message">
+        <header>Message - {{ times[0] }}</header>
+        <audio controls>
+            <!-- <source src="https://storagemsgmsg.blob.core.windows.net/containermsgmsg/sender-heartnotes/recorded_audio.wav" type="audio/wav"> -->
+            <source src=" {{ audio }} " type="audio/wav">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    {% endfor %}
+    
+
+    <!-- Another example message
+    <div class="container message">
+        <header>Message from Bob - May 21, 2024</header>
+        <audio controls>
+            <source src="audio2.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    New messages will be added here 
+    <div class="container message">
+        <header>Message from Charlie - May 20, 2024</header>
+        <audio controls>
+            <source src="audio3.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div> -->
+</body>
+</html>
+
