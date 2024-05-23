@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
     while True:
         if (GPIO.input(RES_TOUCH_GPIO)):
-            send_message_to_iot_hub("Hi ESP32!")
+            # send_message_to_iot_hub("Hi ESP32!")
             file_out = record_audio()
             send_data_to_azure(file_out)
             time.sleep(2)
