@@ -4,9 +4,11 @@ import os
 import RPi.GPIO as GPIO
 from gpiozero import Button
 from recording_test import *
+from azure.core.exceptions import AzureError
+from azure.storage.blob import BlobClient
+from FileUpload import *
 
-# from azure.iot.device import IoTHubDeviceClient, Message
-#from azure.iot.device import IoTHubDeviceClient, Message
+from azure.iot.device import IoTHubDeviceClient, Message
 import json
 
 # from https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/
@@ -16,15 +18,16 @@ import json
 RES_TOUCH_GPIO = 17
 CONNECTION_STRING = "HostName=milan-iothub.azure-devices.net;DeviceId=sender-heartnotes;SharedAccessKey=/Nxx9g90sMp9ZHQrI4tRu2L9aW43T/oH/PILnQ56FPI="
 
-def send_data_to_azure(data):
-    #client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)
+def send_data_to_azure(file_name):
+    # client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)
     #message = Message(json.dumps(data))
     #client.send_message(message)
+    send_file_to_azure(CONNECTION_STRING, file_name)
     print("Message successfully sent")
 
 def record_audio():
-    record_stream()
-    #send_data_to_azure("heyhey")
+    output_file = record_stream()
+    return output_file
 
 if __name__ == '__main__':
     GPIO.setmode(GPIO.BCM)
@@ -33,5 +36,6 @@ if __name__ == '__main__':
 
     while True:
         if (GPIO.input(RES_TOUCH_GPIO)):
-            record_audio()
+            file_out = record_audio()
+            send_data_to_azure(file_out)
             time.sleep(2)

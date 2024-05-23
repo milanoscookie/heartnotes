@@ -33,3 +33,5 @@ def record_stream():
     sf.write(output_file, audio_data, sample_rate)
 
     print(f'Recording saved as {output_file}')
+
+    return output_file
