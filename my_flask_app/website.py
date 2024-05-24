@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from azure.storage.blob import BlobServiceClient
 import os
 import datetime
+import pytz 
 
 app = Flask(__name__)
 # app= Flask(__name__, template_folder='heartnotes')    
@@ -16,13 +17,16 @@ SAS_TOKEN = "sp=racwdli&st=2024-05-23T01:35:31Z&se=2026-05-23T09:35:31Z&sv=2022-
 blob_service_client = BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
 container_client = blob_service_client.get_container_client(CONTAINER_NAME)
 
+# Define the timezone you want to convert to (e.g., CST)
+cst_timezone = pytz.timezone('America/Chicago')
+
 @app.route('/')
 def home():
     # List blobs in the container
     blob_list = container_client.list_blobs()
     audio_files = []
     times = []
-    for blob in blob_list:
+    for blob in sorted(blob_list, key=lambda x: x.last_modified, reverse=True):
         # Construct the URL for each audio file
         print(blob.name[len(blob.name) - 3:])
         if (blob.name[len(blob.name) - 3:] == "wav"):
@@ -31,11 +35,19 @@ def home():
             print("blob.name: ")
             print(blob.name)
             audio_files.append(audio_url)
-            creation_time = blob['creation_time'].strftime("%Y-%m-%d %H:%M:%S")
-            times.append(creation_time)
-            print(blob['creation_time'])
-            print(creation_time)
+            #creation_time = blob['creation_time'].strftime("%Y-%m-%d %H:%M:%S")
+            #times.append(creation_time)
+            #print(blob['creation_time'])
+            #print(creation_time)
             print(audio_files)
+            blob_properties = container_client.get_blob_client(blob).get_blob_properties()
+            # Convert last modified time to CST
+            last_modified_utc = blob_properties.last_modified.replace(tzinfo=pytz.utc)
+            last_modified_cst = last_modified_utc.astimezone(cst_timezone)
+            last_modified_formatted = last_modified_cst.strftime("%Y-%m-%d %H:%M:%S %Z")
+            times.append(last_modified_formatted)
+            break
+
     return render_template('audio.html', audio_files=audio_files, times = times)
 
 if __name__ == '__main__':

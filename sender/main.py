@@ -7,10 +7,16 @@ from recording_test import *
 from azure.core.exceptions import AzureError
 from azure.storage.blob import BlobClient
 from FileUpload import *
+import paho.mqtt.client as mqtt
 
 from azure.iot.device import IoTHubDeviceClient, Message
 import json
 import requests
+
+import socket
+
+HOST = '10.106.14.75'  # IP address of the ESP32
+PORT = 65432  # Choose a free port number
 
 # ESP32 IP address and endpoint
 esp32_ip = "http://10.106.14.75/data"
@@ -41,15 +47,29 @@ def send_message_to_iot_hub(message):
     print(f"Message sent: {message}")
     client.shutdown()
 
+def on_connect(client, userdata, flags, rc):
+    print(f"Connected with result code {rc}")
+    # client.subscribe("topic", qos=0)  # Subscribe to the topic with QoS 0
+
 if __name__ == '__main__':
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(RES_TOUCH_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-
+        
     while True:
         if (GPIO.input(RES_TOUCH_GPIO)):
-            # send_message_to_iot_hub("Hi ESP32!")
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.connect((HOST, PORT))
+                byte_to_send = b'\x08'  # Example byte to send (ASCII 'A')
+                s.sendall(byte_to_send)     
+
             file_out = record_audio()
             send_data_to_azure(file_out)
+
             time.sleep(2)
+
+        #print(GPIO.input(RES_TOUCH_GPIO))
+
+
+
+        
 
