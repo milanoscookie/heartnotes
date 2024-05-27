@@ -29,7 +29,7 @@ def record_stream():
     print('Recording stopped')
 
     # Save the recorded audio to a WAV file
-    output_file = 'recorded_output.wav'
+    output_file = 'audio_out.wav'
     sf.write(output_file, audio_data, sample_rate)
 
     print(f'Recording saved as {output_file}')

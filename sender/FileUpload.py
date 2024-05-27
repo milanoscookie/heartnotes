@@ -4,7 +4,7 @@ from azure.core.exceptions import AzureError
 from azure.storage.blob import BlobClient
 
 CONNECTION_STRING = "HostName=milan-iothub.azure-devices.net;DeviceId=sender-heartnotes;SharedAccessKey=/Nxx9g90sMp9ZHQrI4tRu2L9aW43T/oH/PILnQ56FPI="
-PATH_TO_FILE = r"recorded_audio.wav"
+PATH_TO_FILE = r"audio_out.wav"
 
 def store_blob(blob_info, file_name):
     try:
@@ -31,6 +31,7 @@ def store_blob(blob_info, file_name):
     except AzureError as ex:
         # catch Azure errors that might result from the upload operation
         return (False, ex)
+
     
 def run_sample(device_client, path_to_file):
     # Connect the client
@@ -38,6 +39,7 @@ def run_sample(device_client, path_to_file):
 
     # Get the storage info for the blob
     blob_name = os.path.basename(path_to_file)
+
     storage_info = device_client.get_storage_info_for_blob(blob_name)
 
     # Upload to blob

@@ -16,7 +16,7 @@ import requests
 import socket
 
 HOST = '10.106.14.75'  # IP address of the ESP32
-PORT = 65432  # Choose a free port number
+PORT = 8888  # Choose a free port number
 
 # ESP32 IP address and endpoint
 esp32_ip = "http://10.106.14.75/data"
@@ -61,7 +61,8 @@ if __name__ == '__main__':
                 s.connect((HOST, PORT))
                 byte_to_send = b'\x08'  # Example byte to send (ASCII 'A')
                 s.sendall(byte_to_send)     
-
+            
+            send_message_to_iot_hub("Touch sensor pressed!")
             file_out = record_audio()
             send_data_to_azure(file_out)
 

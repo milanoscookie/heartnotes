@@ -28,7 +28,7 @@ def home():
     times = []
     for blob in sorted(blob_list, key=lambda x: x.last_modified, reverse=True):
         # Construct the URL for each audio file
-        print(blob.name[len(blob.name) - 3:])
+        #print(blob.name[len(blob.name) - 3:])
         if (blob.name[len(blob.name) - 3:] == "wav"):
             audio_url = f"https://{STORAGE_ACCOUNT_NAME}.blob.core.windows.net/{CONTAINER_NAME}/{blob.name}?{SAS_TOKEN}"
             print("blob:" + str(blob))
@@ -46,7 +46,7 @@ def home():
             last_modified_cst = last_modified_utc.astimezone(cst_timezone)
             last_modified_formatted = last_modified_cst.strftime("%Y-%m-%d %H:%M:%S %Z")
             times.append(last_modified_formatted)
-            break
+            #break
 
     return render_template('audio.html', audio_files=audio_files, times = times)
 

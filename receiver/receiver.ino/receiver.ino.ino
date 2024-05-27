@@ -2,7 +2,7 @@
 
 const char* ssid = "Device-Northwestern";
 const char* password = "";
-const int serverPort = 65432;
+const int serverPort = 8888;
 
 WiFiServer server(serverPort);
 WiFiClient client;
@@ -15,12 +15,12 @@ void setup() {
     WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
-        Serial.println("Connecting to WiFi...");
     }
     Serial.println("Connected to WiFi");
 
     server.begin();
-    Serial.println("Server started");
+    Serial.println("Server started: ");
+    Serial.println(WiFi.localIP());
 }
 
 void loop() {
