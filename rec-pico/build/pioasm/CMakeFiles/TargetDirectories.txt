@@ -1,3 +1,0 @@
-/home/milan/ce495/heartnotes/rec-pico/build/pioasm/CMakeFiles/pioasm.dir
-/home/milan/ce495/heartnotes/rec-pico/build/pioasm/CMakeFiles/edit_cache.dir
-/home/milan/ce495/heartnotes/rec-pico/build/pioasm/CMakeFiles/rebuild_cache.dir
